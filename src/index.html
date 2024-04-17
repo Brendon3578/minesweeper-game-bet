@@ -16,7 +16,57 @@
 
     <title>Minesweeper Bet Game</title>
   </head>
-  <body class="flex h-screen items-center justify-center">
-    <h1 class="text-3xl font-bold underline">Hello world!</h1>
+  <body>
+    <div id="app" class="bg-background w-full min-h-screen">
+      <!-- HEADER -->
+      <header
+        class="p-1 px-4 bg-slate-800 flex justify-between border border-b border-slate-700"
+      >
+        <!-- LOGO -->
+        <a
+          class="text-primary text-4xl flex items-center hover:animate-pulse"
+          href="#"
+        >
+          <img src="./assets/mascote.svg" alt="" class="w-12 h-12" />
+          Minesweeper
+        </a>
+        <div class="flex gap-2 items-center justify-center">
+          <a
+            class="bg-secondary flex py-0.5 px-3 items-center gap-1 justify-center rounded-full"
+            title="Clique aqui para saber como jogar o jogo"
+            href="./how-to-play.html"
+          >
+            <!-- prettier-ignore -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0ZM8.94 6.94a.75.75 0 1 1-1.061-1.061 3 3 0 1 1 2.871 5.026v.345a.75.75 0 0 1-1.5 0v-.5c0-.72.57-1.172 1.081-1.287A1.5 1.5 0 1 0 8.94 6.94ZM10 15a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd" />
+            </svg>
+
+            <span class="hidden sm:inline-block"> Como jogar? </span>
+          </a>
+          <!-- Saldo do usuário -->
+          <div
+            class="flex gap-2 items-center justify-center py-0.5 px-3 bg-slate-900 border-slate-700 border rounded-full text-white"
+          >
+            <span>
+              <img src="./assets/coin.svg" alt="fatecoins" class="w-6 h-6" />
+            </span>
+            <span id="player-money">0.00</span>
+          </div>
+        </div>
+      </header>
+      <!-- MAIN -->
+      <main class="w-full flex items-center justify-center">
+        <!-- div container -->
+        <div
+          class="max-w-5xl flex flex-col w-full items-center justify-center p-2 gap-3"
+        >
+          <div
+            class="overflow-hidden bg-gray-950 border-gray-700 border rounded-3xl py-2 px-4 sm:py-4 sm:px-8 min-h-96 w-full text-white flex items-center justify-center flex-col gap-2"
+          >
+            <h1>Minesweeper game</h1>
+          </div>
+        </div>
+      </main>
+    </div>
   </body>
 </html>
