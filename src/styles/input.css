@@ -25,6 +25,7 @@
 
 .block.revealed {
   background-color: #fff;
+  color: black;
 }
 
 .bomb {
