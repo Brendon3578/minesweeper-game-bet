@@ -1,6 +1,6 @@
 // document.addEventListener("DOMContentLoaded", function () {
 const grid = document.getElementById("grid");
-const size = 8; // Tamanho do campo minado
+const size = 8; // Tamanho do campo minado //8x8
 const bombCount = 10; // Número de bombas
 
 let gameGrid = [];
@@ -52,6 +52,7 @@ function handleClick(event) {
     alert("Você perdeu! Tente novamente.");
     setTimeout(() => resetGame(), 10000);
   } else {
+    block.classList.add("diamond");
     block.classList.add("revealed");
     block.textContent = "💎"; // Adiciona o ícone de diamante
     checkWinCondition();
