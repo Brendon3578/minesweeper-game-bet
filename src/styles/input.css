@@ -6,28 +6,16 @@
   font-family: "Roboto Mono", monospace;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(8, 50px);
-  grid-template-rows: repeat(8, 50px);
-  gap: 2px;
+.game-grid {
+  @apply grid grid-cols-8 grid-rows-8 gap-1 max-w-fit min-w-max mx-auto my-0;
 }
 
-.block {
-  width: 50px;
-  height: 50px;
-  background-color: #434247;
-  border: 1px solid #535357;
-  text-align: center;
-  font-size: 24px;
-  line-height: 50px;
-  cursor: pointer;
+.mine-block {
+  @apply flex items-center justify-center w-14 h-14 bg-gray-800 border border-gray-700 text-center text-2xl cursor-pointer rounded-sm shadow-sm ease-in duration-200;
 }
 
-.block.revealed {
-  background-color: #535357;
-  border-color: #5c5c61;
-  color: black;
+.mine-block.revealed {
+  @apply brightness-110;
 }
 
 .diamond {
@@ -68,6 +56,7 @@
   height: calc(100% + 4px);
   animation: glowing-button-85 20s linear infinite;
   transition: opacity 0.3s ease-in-out;
+  border-radius: 2px;
 }
 
 @keyframes glowing-button-85 {
@@ -91,9 +80,84 @@
   background: #222;
   left: 0;
   top: 0;
+  border-radius: 2px;
 }
 
 .bomb {
   background-color: #f00;
   color: #fff;
+}
+
+/* remover as setas do input do tipo number */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.button-bet {
+  /* @apply  */
+
+  /* TODO: TERMINAR AQUI */
+  padding: 8px 16px;
+  border: none;
+  outline: none;
+  color: rgb(255, 255, 255);
+  background: #111;
+  cursor: pointer;
+  border-radius: 16px;
+  transition: transform 0.1s ease-in-out;
+}
+
+.button-bet:hover {
+  @apply scale-105 brightness-110;
+}
+
+.button-bet[data-button-disabled="true"] {
+  @apply cursor-not-allowed pointer-events-none opacity-50;
+}
+/* cancel button */
+fieldset[data-bet-status="cancel"] {
+  @apply border-red-600 shadow shadow-red-600;
+}
+
+fieldset[data-bet-status="cancel"] .button-bet {
+  @apply scale-90;
+}
+fieldset[data-bet-status="cancel"] .button-bet::after {
+  @apply bg-gradient-to-b from-red-600 to-red-800 text-white;
+}
+
+fieldset[data-bet-status="cancel"] .button-bet:before {
+  @apply bg-none;
+}
+
+/* cash out button */
+
+fieldset[data-bet-status="cash-out"] {
+  @apply border-amber-600 shadow shadow-amber-600;
+}
+
+fieldset[data-bet-status="cash-out"] .button-bet {
+  @apply scale-90;
+}
+fieldset[data-bet-status="cash-out"] .button-bet::after {
+  @apply bg-gradient-to-b from-amber-600 to-amber-700 text-white;
+}
+
+fieldset[data-bet-status="cash-out"] .button-bet:before {
+  @apply bg-none;
+}
+
+.cash-out-value-txt {
+  @apply hidden;
+}
+
+fieldset[data-bet-status="cash-out"] .cash-out-value-txt {
+  @apply flex;
 }
