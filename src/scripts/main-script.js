@@ -1,157 +1,187 @@
-const diamonds = [
-  "black",
-  "blue",
-  "brown",
-  "cyan",
-  "gray",
-  "green",
-  "orange",
-  "pink",
-  "purple",
-  "red",
-  "white",
-  "yellow",
-];
-
-function getRandomDiamondImage() {
-  const random = Math.floor(Math.random() * diamonds.length);
-  const diamondChosen = diamonds[random];
-  return `./assets/diamonds/${diamondChosen}.png`;
-}
-let diamondSrcImage = "";
-
-function pickRandomDiamondImage() {
-  diamondSrcImage = getRandomDiamondImage();
-}
-
-// document.addEventListener("DOMContentLoaded", function () {
+import { Round } from "./classes/round.js";
 const grid = document.getElementById("grid");
-const size = 8; // Tamanho do campo minado //8x8
-const bombCount = 10; // Número de bombas
-let isGameRevealed = false;
+const diamondsTextEl = document.getElementById("diamonds-quantity");
 
-let gameGrid = [];
+const round = new Round(grid, diamondsTextEl);
+round.startNewRound();
 
-// Função para criar o campo minado
-function createGrid() {
-  pickRandomDiamondImage();
+// const diamonds = [
+//   "black",
+//   "blue",
+//   "brown",
+//   "cyan",
+//   "gray",
+//   "green",
+//   "orange",
+//   "pink",
+//   "purple",
+//   "red",
+//   "white",
+//   "yellow",
+// ];
 
-  for (let i = 0; i < size; i++) {
-    for (let j = 0; j < size; j++) {
-      const block = document.createElement("div");
-      block.classList.add("mine-block");
+// function getRandomDiamondImage() {
+//   const random = Math.floor(Math.random() * diamonds.length);
+//   const diamondChosen = diamonds[random];
+//   return `./assets/diamonds/${diamondChosen}.png`;
+// }
+// let diamondSrcImage = "";
 
-      block.dataset.x = i;
-      block.dataset.y = j;
-      grid.appendChild(block);
-      block.addEventListener("click", handleClick);
-      gameGrid.push({ x: i, y: j, hasBomb: false, revealed: false });
-    }
-  }
-  placeBombs();
-}
+// function pickRandomDiamondImage() {
+//   diamondSrcImage = getRandomDiamondImage();
+// }
 
-// Função para distribuir as bombas aleatoriamente
-function placeBombs() {
-  let bombsPlaced = 0;
-  console.log("------------ Onde as bombas estão plantadas ------------ ");
-  while (bombsPlaced < bombCount) {
-    const randomIndex = Math.floor(Math.random() * gameGrid.length);
-    if (!gameGrid[randomIndex].hasBomb) {
-      console.log(gameGrid[randomIndex]);
+// // document.addEventListener("DOMContentLoaded", function () {
 
-      gameGrid[randomIndex].hasBomb = true;
-      bombsPlaced++;
-    }
-  }
-}
+// const size = 8; // Tamanho do campo minado //8x8
+// const bombCount = 10; // Número de bombas
+// let diamondsCount = 0;
+// let isGameRevealed = false;
 
-// Função para lidar com o clique em um bloco
-function handleClick(event) {
-  if (isGameRevealed) return;
-  const block = event.target;
-  const x = parseInt(block.dataset.x);
-  const y = parseInt(block.dataset.y);
+// let gameGrid = [];
 
-  // Verifica se o bloco clicado tem uma bomba
-  const clickedBlock = gameGrid.find((block) => block.x === x && block.y === y);
+// function setDiamondsCount(diamonds) {
+//   diamondsCount = diamonds;
+// }
 
-  if (clickedBlock.revealed) return;
+// function removeOneDiamond() {
+//   setDiamondsCount(diamondsCount - 1);
+//   updateDiamonds();
+// }
 
-  if (clickedBlock.hasBomb) {
-    block.classList.add("bomb");
-    block.innerHTML = createIconImgEl("bomb");
+// function setInitialDiamonds() {
+//   setDiamondsCount(size * size - bombCount);
+//   updateDiamonds();
+// }
 
-    // block.textContent = "💣";
-    revealAllBlocks();
-    alert("Você perdeu! Tente novamente.");
+// const diamondsTextEl = document.getElementById("diamonds-quantity");
 
-    // --- Reniciar o jogo
-    setTimeout(() => {
-      resetGame();
-      isGameRevealed = false;
-    }, 10000);
-  } else {
-    block.classList.add("diamond");
-    block.classList.add("revealed");
-    block.innerHTML = createIconImgEl("diamond");
-    // block.textContent = "💎"; // Adiciona o ícone de diamante
-    checkWinCondition();
-  }
-}
+// function updateDiamonds() {
+//   diamondsTextEl.innerText = diamondsCount;
+// }
 
-// Função para revelar todos os blocos no final do jogo
-function revealAllBlocks() {
-  isGameRevealed = true;
+// // Função para criar o campo minado
+// function createGrid() {
+//   pickRandomDiamondImage();
+//   setInitialDiamonds();
 
-  gameGrid.forEach((block) => {
-    const blockElement = document.querySelector(
-      `.mine-block[data-x="${block.x}"][data-y="${block.y}"]`
-    );
-    if (block.hasBomb) {
-      blockElement.classList.add("bomb");
-      blockElement.innerHTML = createIconImgEl("bomb");
-      // blockElement.textContent = "💣";
-    } else {
-      blockElement.classList.add("revealed");
-    }
-  });
-}
+//   for (let i = 0; i < size; i++) {
+//     for (let j = 0; j < size; j++) {
+//       const block = document.createElement("div");
+//       block.classList.add("mine-block");
 
-// Função para verificar se o jogador ganhou o jogo
-function checkWinCondition() {
-  let unrevealedSafeBlocks = gameGrid.filter(
-    (block) => !block.hasBomb && !block.revealed
-  ).length;
-  if (unrevealedSafeBlocks === 0) {
-    revealAllBlocks();
-    alert("Parabéns! Você ganhou!");
-    resetGame();
-  }
-}
+//       block.dataset.x = i;
+//       block.dataset.y = j;
+//       grid.appendChild(block);
+//       block.addEventListener("click", handleClick);
+//       gameGrid.push({ x: i, y: j, hasBomb: false, revealed: false });
+//     }
+//   }
+//   placeBombs();
+// }
 
-// Função para reiniciar o jogo
-function resetGame() {
-  grid.innerHTML = "";
-  gameGrid = [];
-  createGrid();
-}
+// // Função para distribuir as bombas aleatoriamente
+// function placeBombs() {
+//   let bombsPlaced = 0;
+//   console.log("------------ Onde as bombas estão plantadas ------------ ");
+//   while (bombsPlaced < bombCount) {
+//     const randomIndex = Math.floor(Math.random() * gameGrid.length);
+//     if (!gameGrid[randomIndex].hasBomb) {
+//       console.log(gameGrid[randomIndex]);
 
-createGrid();
-// });
+//       gameGrid[randomIndex].hasBomb = true;
+//       bombsPlaced++;
+//     }
+//   }
+// }
 
-/**
- * @param {"diamond" | "bomb"} icon
- * @returns string
- */
-function createIconImgEl(icon) {
-  let iconImageSrc;
+// // Função para lidar com o clique em um bloco
+// function handleClick(event) {
+//   if (isGameRevealed) return;
+//   const block = event.target;
+//   const x = parseInt(block.dataset.x);
+//   const y = parseInt(block.dataset.y);
 
-  if (icon == "bomb") {
-    iconImageSrc = "./assets/bomb.png";
-  } else if (icon == "diamond") {
-    iconImageSrc = diamondSrcImage;
-  }
+//   // Verifica se o bloco clicado tem uma bomba
+//   const clickedBlock = gameGrid.find((block) => block.x === x && block.y === y);
 
-  return `<img src='${iconImageSrc}' class='w-12 h-12' alt='${icon}'/>`;
-}
+//   if (clickedBlock.revealed) return;
+
+//   if (clickedBlock.hasBomb) {
+//     block.classList.add("bomb");
+//     block.innerHTML = createIconImgEl("bomb");
+
+//     // block.textContent = "💣";
+//     revealAllBlocks();
+//     alert("Você perdeu! Tente novamente.");
+
+//     // --- Reniciar o jogo
+//     setTimeout(() => {
+//       resetGame();
+//       isGameRevealed = false;
+//     }, 10000);
+//   } else {
+//     removeOneDiamond();
+//     block.classList.add("diamond");
+//     block.classList.add("revealed");
+//     block.innerHTML = createIconImgEl("diamond");
+//     // block.textContent = "💎"; // Adiciona o ícone de diamante
+//     checkWinCondition();
+//   }
+// }
+
+// // Função para revelar todos os blocos no final do jogo
+// function revealAllBlocks() {
+//   isGameRevealed = true;
+
+//   gameGrid.forEach((block) => {
+//     const blockElement = document.querySelector(
+//       `.mine-block[data-x="${block.x}"][data-y="${block.y}"]`
+//     );
+//     if (block.hasBomb) {
+//       blockElement.classList.add("bomb");
+//       blockElement.innerHTML = createIconImgEl("bomb");
+//       // blockElement.textContent = "💣";
+//     } else {
+//       blockElement.classList.add("revealed");
+//     }
+//   });
+// }
+
+// // Função para verificar se o jogador ganhou o jogo
+// function checkWinCondition() {
+//   let unrevealedSafeBlocks = gameGrid.filter(
+//     (block) => !block.hasBomb && !block.revealed
+//   ).length;
+//   if (unrevealedSafeBlocks === 0) {
+//     revealAllBlocks();
+//     alert("Parabéns! Você ganhou!");
+//     resetGame();
+//   }
+// }
+
+// // Função para reiniciar o jogo
+// function resetGame() {
+//   grid.innerHTML = "";
+//   gameGrid = [];
+//   createGrid();
+// }
+
+// createGrid();
+// // });
+
+// /**
+//  * @param {"diamond" | "bomb"} icon
+//  * @returns string
+//  */
+// function createIconImgEl(icon) {
+//   let iconImageSrc;
+
+//   if (icon == "bomb") {
+//     iconImageSrc = "./assets/bomb.png";
+//   } else if (icon == "diamond") {
+//     iconImageSrc = diamondSrcImage;
+//   }
+
+//   return `<img src='${iconImageSrc}' class='w-12 h-12' alt='${icon}'/>`;
+// }
