@@ -103,12 +103,12 @@ export class Round {
         const block = document.createElement("div");
         block.classList.add("mine-block");
 
-        block.dataset.x = i;
-        block.dataset.y = j;
+        block.dataset.x = j;
+        block.dataset.y = i;
         this.#gridEl.appendChild(block);
         this.gameGrid.push({
-          x: i,
-          y: j,
+          x: j,
+          y: i,
           hasBomb: false,
           revealed: false,
         });
@@ -142,6 +142,11 @@ export class Round {
     const randomDiamondIndex = getRandomInt(DIAMONDS_IMAGE_FILENAMES.length);
     const diamondSrcImageChosen = DIAMONDS_IMAGE_FILENAMES[randomDiamondIndex];
     return `./assets/diamonds/${diamondSrcImageChosen}.png`;
+  }
+
+  #preloadDiamondImgOnCache() {
+    document.querySelector("#diamond-cache .diamond").innerHTML =
+      this.#createIconImgEl("diamond");
   }
 
   #pickRandomDiamondSrcImage() {
@@ -178,6 +183,7 @@ export class Round {
   startNewRound() {
     this.#setInitialDiamonds();
     this.#pickRandomDiamondSrcImage();
+    this.#preloadDiamondImgOnCache();
     this.createGrid();
   }
 

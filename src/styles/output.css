@@ -588,6 +588,10 @@ video {
   }
 }
 
+.invisible {
+  visibility: hidden;
+}
+
 .\!block {
   display: block !important;
 }
