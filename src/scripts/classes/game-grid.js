@@ -1,7 +1,7 @@
 import { DIAMONDS_IMAGE_FILENAMES, getRandomInt, sleep } from "../utils.js";
 import { Block } from "./block.js";
 
-export class Round {
+export class GameGrid {
   #ROUND_LOADING_NEW_GAME_MS = 10000;
 
   #bombCount = 10;

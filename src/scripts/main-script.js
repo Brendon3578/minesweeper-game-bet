@@ -1,6 +1,7 @@
-import { Round } from "./classes/round.js";
+import { GameGrid } from "./classes/game-grid.js";
+
 const grid = document.getElementById("grid");
 const diamondsTextEl = document.getElementById("diamonds-quantity");
 
-const round = new Round(grid, diamondsTextEl);
-round.startNewRound();
+const gameGrid = new GameGrid(grid, diamondsTextEl);
+gameGrid.startNewRound();
