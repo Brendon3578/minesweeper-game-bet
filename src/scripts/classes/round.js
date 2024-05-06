@@ -1,13 +1,5 @@
 import { DIAMONDS_IMAGE_FILENAMES, getRandomInt, sleep } from "../utils.js";
-
-/**
- * Objeto representando um bloco em um jogo de campo minado.
- * @typedef {Object} Block
- * @property {number} x - A coordenada x do bloco.
- * @property {number} y - A coordenada y do bloco.
- * @property {boolean} hasBomb - Indica se o bloco tem uma bomba.
- * @property {boolean} revealed - Indica se o bloco foi revelado.
- */
+import { Block } from "./block.js";
 
 export class Round {
   #ROUND_LOADING_NEW_GAME_MS = 10000;
@@ -43,9 +35,9 @@ export class Round {
       (block) => block.x == x && block.y == y
     );
 
-    if (clickedBlock.revealed) return;
+    if (clickedBlock.isRevealed) return;
 
-    clickedBlock.revealed = true;
+    clickedBlock.isRevealed = true;
 
     if (clickedBlock.hasBomb) {
       block.classList.add("bomb");
@@ -86,7 +78,7 @@ export class Round {
     this.isGameRevealed = true;
 
     this.gameGrid.forEach((block) => {
-      console.log(block.revealed);
+      console.log(block.isRevealed);
       // console.log(block);
       const blockElement = document.querySelector(
         `.mine-block[data-x="${block.x}"][data-y="${block.y}"]`
@@ -97,7 +89,7 @@ export class Round {
         // blockElement.textContent = "💣";
       } else {
         blockElement.classList.add("revealed");
-        if (block.revealed == false) {
+        if (block.isRevealed == false) {
           blockElement.classList.add("ended");
         }
         blockElement.innerHTML = this.#createIconImgEl("diamond");
@@ -114,12 +106,8 @@ export class Round {
         block.dataset.x = j;
         block.dataset.y = i;
         this.#gridEl.appendChild(block);
-        this.gameGrid.push({
-          x: j,
-          y: i,
-          hasBomb: false,
-          revealed: false,
-        });
+        let mineBlock = new Block(j, i, false, false);
+        this.gameGrid.push(mineBlock);
 
         // tem que ter o .bind()
         block.addEventListener("click", this.handleBlockClick);
@@ -163,7 +151,7 @@ export class Round {
 
   checkWinCondition() {
     let unrevealedSafeBlocks = this.gameGrid.filter(
-      (block) => !block.hasBomb && !block.revealed
+      (block) => !block.hasBomb && !block.isRevealed
     ).length;
     if (unrevealedSafeBlocks === 0) {
       this.revealAllBlocks();
@@ -178,10 +166,10 @@ export class Round {
     while (bombsPlaced < this.#bombCount) {
       const randomIndex = Math.floor(Math.random() * this.gameGrid.length);
       if (!this.gameGrid[randomIndex].hasBomb) {
-        console.log(this.gameGrid[randomIndex]);
-
         this.gameGrid[randomIndex].hasBomb = true;
         bombsPlaced++;
+
+        this.gameGrid[randomIndex].logBlockPosition();
       }
     }
   }
