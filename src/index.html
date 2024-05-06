@@ -28,7 +28,7 @@
           class="text-primary text-4xl flex items-center hover:animate-pulse"
           href="#"
         >
-          <img src="./assets/mascote.svg" alt="" class="w-12 h-12" />
+          <img src="./assets/mascote.svg" alt="" class="size-12" />
           Minesweeper
         </a>
         <div class="flex gap-2 items-center justify-center">
@@ -38,7 +38,7 @@
             href="./how-to-play.html"
           >
             <!-- prettier-ignore -->
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
               <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0ZM8.94 6.94a.75.75 0 1 1-1.061-1.061 3 3 0 1 1 2.871 5.026v.345a.75.75 0 0 1-1.5 0v-.5c0-.72.57-1.172 1.081-1.287A1.5 1.5 0 1 0 8.94 6.94ZM10 15a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd" />
             </svg>
 
@@ -49,7 +49,7 @@
             class="flex gap-2 items-center justify-center py-0.5 px-3 bg-slate-900 border-slate-700 border rounded-full text-white"
           >
             <span>
-              <img src="./assets/coin.svg" alt="fatecoins" class="w-6 h-6" />
+              <img src="./assets/coin.svg" alt="fatecoins" class="size-6" />
             </span>
             <span id="player-money">0.00</span>
           </div>
@@ -64,7 +64,7 @@
         >
           <!-- LOCAL DE APOSTA -->
           <aside
-            class="basis-1/3 text-white bg-gray-800 border border-gray-700 rounded-xl"
+            class="basis-1/3 text-white bg-gray-800 border border-gray-700 rounded-2xl"
           >
             <form class="flex flex-col lg:flex-row gap-8 w-full">
               <fieldset
@@ -73,55 +73,110 @@
               >
                 <p class="text-gray-400 text-sm">Faça a sua aposta abaixo</p>
 
-                <div class="flex flex-col gap-8">
-                  <!-- input group -->
-                  <label class="flex flex-col gap-1">
-                    <span class="text-slate-300 text-sm">Valor da aposta</span>
-                    <input
-                      type="number"
-                      name=""
-                      id=""
-                      class="p-1 px-2 rounded border border-slate-600 bg-slate-800 outline-none shadow-md"
-                    />
-                  </label>
+                <div class="flex flex-col gap-4">
+                  <div class="flex gap-2 items-end">
+                    <!-- input group -->
+                    <label class="relative flex flex-col gap-1">
+                      <span class="text-slate-300 font-semibold"
+                        >Valor da aposta</span
+                      >
+                      <input
+                        type="number"
+                        name=""
+                        id=""
+                        class="px-2 h-9 rounded border border-slate-600 bg-slate-800 outline-none shadow-md"
+                      />
+                      <span
+                        class="absolute bottom-2 right-3 text-sm text-slate-500 font-bold pointer-events-none"
+                      >
+                        R$
+                      </span>
+                    </label>
+                    <button
+                      type="button"
+                      class="flex flex-col items-center justify-center bg-slate-700 border-slate-600 text-xl size-9 border rounded-sm"
+                    >
+                      ½
+                    </button>
+                    <button
+                      type="button"
+                      class="flex flex-col items-center justify-center bg-slate-700 border-slate-600 size-9 border rounded-sm"
+                    >
+                      2x
+                    </button>
+                  </div>
 
-                  <div class="flex gap-1 w-full">
+                  <div class="flex gap-2 w-full">
                     <!-- card group -->
                     <div class="flex flex-col gap-1 w-full">
-                      <span class="text-slate-300 text-sm">Bombas 💣</span>
+                      <span class="text-slate-300 text-xs"
+                        >Multiplicador Atual</span
+                      >
                       <div
                         class="p-1 px-2 rounded border border-slate-700 bg-slate-700"
                       >
-                        10
+                        1.01
                       </div>
                     </div>
 
                     <!-- card group -->
                     <div class="flex flex-col gap-1 w-full">
-                      <span class="text-slate-300 text-sm">Gemas 💎</span>
+                      <span class="text-slate-300 text-xs"
+                        >Próximo Multiplicador</span
+                      >
                       <div
                         class="p-1 px-2 rounded border border-slate-700 bg-slate-700"
                       >
-                        <span id="diamonds-quantity"> 0 </span>
+                        <span> 0 </span>
                       </div>
                     </div>
                   </div>
-                  <div class="flex flex-col gap-1 w-full">
-                    <span class="text-slate-300 text-sm">
-                      Ganhos totais
-                      <span>(1.08x)</span>
-                    </span>
-                    <div
-                      class="p-1 px-2 rounded border border-slate-700 bg-slate-700"
-                    >
-                      40
+
+                  <div class="flex flex-col gap-4 my-4">
+                    <div class="flex gap-2 w-full">
+                      <!-- card group -->
+                      <div class="flex flex-col gap-1 w-full">
+                        <span class="text-slate-300 text-sm">Bombas 💣</span>
+                        <div
+                          class="p-1 px-2 rounded border border-slate-700 bg-slate-700"
+                        >
+                          10
+                        </div>
+                      </div>
+
+                      <!-- card group -->
+                      <div class="flex flex-col gap-1 w-full">
+                        <span class="text-slate-300 text-sm">Gemas 💎</span>
+                        <div
+                          class="p-1 px-2 rounded border border-slate-700 bg-slate-700"
+                        >
+                          <span id="diamonds-quantity"> 0 </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="flex flex-col gap-1 w-full">
+                      <span class="text-slate-300 text-sm">
+                        Ganhos totais
+                        <span>(1.08x)</span>
+                      </span>
+                      <div
+                        class="p-1 px-2 rounded border border-slate-700 bg-slate-700"
+                      >
+                        40
+                      </div>
                     </div>
                   </div>
                 </div>
 
                 <!-- BET BUTTON -->
+                <button
+                  type="button"
+                  class="w-full bg-primary py-4 text-xl font-bold rounded-md border-primary-dark border shadow-md shadow-primary/50 hover:bg-primary-dark hover:scale-105 transition duration-150 ease-in-out"
+                >
+                  Bet
+                </button>
 
-                <div
+                <!-- <div
                   role="button"
                   id="bet-button"
                   data-button-disabled="false"
@@ -134,17 +189,21 @@
                     <span data-bet-text-value>1.00x</span>
                     <span class="text-sm">R$</span>
                   </div>
-                </div>
+                </div> -->
               </fieldset>
             </form>
           </aside>
 
           <!-- game container -->
           <div
-            class="p-2 overflow-hidden bg-gray-950 border-gray-700 border rounded-3xl min-h-96 w-full text-white flex items-center justify-center flex-col gap-2"
+            class="p-2 overflow-hidden bg-gray-950 border-gray-700 border rounded-2xl min-h-96 w-full text-white flex items-center justify-center flex-col gap-2"
           >
             <div class="overflow-auto p-4 px-8 w-full">
-              <div class="game-grid" id="grid"></div>
+              <div
+                class="grid grid-cols-6 grid-rows-6 gap-2 max-w-fit min-w-max mx-auto my-0"
+                id="grid"
+              ></div>
+              <!-- data-disabled="true" -->
             </div>
           </div>
         </div>

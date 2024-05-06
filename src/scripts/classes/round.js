@@ -13,7 +13,7 @@ export class Round {
   #ROUND_LOADING_NEW_GAME_MS = 10000;
 
   #bombCount = 10;
-  #gridSize = 8;
+  #gridSize = 6;
   #diamondsCount = 0;
   #diamondSrcImage = "";
   /**
@@ -39,11 +39,13 @@ export class Round {
     const y = parseInt(block.dataset.y);
 
     // Verifica se o bloco clicado tem uma bomba
-    const clickedBlock = this.gameGrid.find(
-      (block) => block.x === x && block.y === y
+    let clickedBlock = this.gameGrid.find(
+      (block) => block.x == x && block.y == y
     );
 
     if (clickedBlock.revealed) return;
+
+    clickedBlock.revealed = true;
 
     if (clickedBlock.hasBomb) {
       block.classList.add("bomb");
@@ -77,13 +79,15 @@ export class Round {
       iconImageSrc = this.#diamondSrcImage;
     }
 
-    return `<img src='${iconImageSrc}' class='w-12 h-12' alt='${icon}'/>`;
+    return `<img src='${iconImageSrc}' class='size-16 pointer-events-none' alt='${icon}'/>`;
   }
 
   revealAllBlocks() {
     this.isGameRevealed = true;
 
     this.gameGrid.forEach((block) => {
+      console.log(block.revealed);
+      // console.log(block);
       const blockElement = document.querySelector(
         `.mine-block[data-x="${block.x}"][data-y="${block.y}"]`
       );
@@ -93,6 +97,10 @@ export class Round {
         // blockElement.textContent = "💣";
       } else {
         blockElement.classList.add("revealed");
+        if (block.revealed == false) {
+          blockElement.classList.add("ended");
+        }
+        blockElement.innerHTML = this.#createIconImgEl("diamond");
       }
     });
   }

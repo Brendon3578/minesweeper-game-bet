@@ -6,16 +6,20 @@
   font-family: "Roboto Mono", monospace;
 }
 
-.game-grid {
-  @apply grid grid-cols-8 grid-rows-8 gap-1 max-w-fit min-w-max mx-auto my-0;
+.mine-block {
+  @apply flex items-center justify-center size-20 bg-gray-800 border border-gray-700 text-center text-2xl cursor-pointer rounded-sm shadow-sm ease-in duration-200;
 }
 
-.mine-block {
-  @apply flex items-center justify-center w-14 h-14 bg-gray-800 border border-gray-700 text-center text-2xl cursor-pointer rounded-sm shadow-sm ease-in duration-200;
+#grid[data-disabled="true"] .mine-block {
+  @apply pointer-events-none opacity-50;
 }
 
 .mine-block.revealed {
   @apply brightness-110;
+}
+
+.mine-block.ended img {
+  @apply opacity-15;
 }
 
 .diamond {
