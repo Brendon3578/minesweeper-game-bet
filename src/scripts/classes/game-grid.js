@@ -1,27 +1,70 @@
-import { DIAMONDS_IMAGE_FILENAMES, getRandomInt, sleep } from "../utils.js";
+import {
+  BET_HINT_MESSAGES,
+  DIAMONDS_IMAGE_FILENAMES,
+  elementExists,
+  getRandomInt,
+  log,
+  roundToTwoDecimalPlaces,
+  sleep,
+} from "../utils.js";
 import { Block } from "./block.js";
+import { Player } from "./player.js";
+
+/**
+ * Objeto contendo referências para elementos HTML em uma página da web.
+ * @typedef {Object} Elements
+ * @property {HTMLElement | null} grid - Referência para um elemento HTML que representa uma grade na página.
+ * @property {MultiplierElements} multiplierEls - Referências para elementos relacionados a multiplicadores do jogo.
+ * @property {HTMLElement | null} diamondsText - Referência para um elemento HTML que contém texto relacionado a diamantes no jogo.
+ * @property {HTMLElement | null} gameHint - Referência para um elemento HTML que fornece dicas ou instruções sobre o jogo.
+ * @property {HTMLElement | null} betButton - Referência para um elemento HTML do botão que serve para fazer apostas.
+ * @property {(HTMLElement | null)[]} inputsToDisableEls - Referência para os elementos do usuário que ele define o valor da aposta.
+ */
+
+/**
+ * Objeto contendo referências para elementos relacionados a multiplicadores do jogo.
+ * @typedef {Object} MultiplierElements
+ * @property {Element | null} actualMultiplier - Referência para um elemento HTML que representa o multiplicador atual do jogo.
+ * @property {Element | null} nextMultiplier - Referência para um elemento HTML que representa o próximo multiplicador do jogo.
+ * @property {Element | null} multiplierLabel - Referência para um elemento HTML que contém um rótulo ou descrição para os multiplicadores.
+ * @property {Element | null} totalWin - Referência para um elemento HTML que mostra o total de ganhos do jogo.
+ */
 
 export class GameGrid {
   #ROUND_LOADING_NEW_GAME_MS = 10000;
 
   #bombCount = 10;
   #gridSize = 6;
+  #diamondsTotal = 0;
   #diamondsCount = 0;
   #diamondSrcImage = "";
+  #isGameStarted = false;
+  multiplier = 1;
+  nextMultiplier = 1;
+  diamondsClicked = 0;
   /**
    * @type {Array<Block>}
    */
   gameGrid = [];
   isGameRevealed = false;
 
-  #gridEl;
-  #diamondTextEl;
+  /**
+   * @type { Elements }
+   */
+  #elements;
 
-  constructor(gridEl, diamondTextEl) {
-    this.#gridEl = gridEl;
-    this.#diamondTextEl = diamondTextEl;
+  /**
+   * @type { Player }
+   */
+  #player;
+
+  constructor(elements, player) {
+    this.#elements = elements;
+    this.#player = player;
+
     // precisa ter o .bind
     this.handleBlockClick = this.handleBlockClick.bind(this);
+    this.enableGameGrid(false);
   }
 
   async handleBlockClick(event) {
@@ -35,24 +78,22 @@ export class GameGrid {
       (block) => block.x == x && block.y == y
     );
 
+    if (!clickedBlock) throw new Error("Clicked Block not exists!");
+
     if (clickedBlock.isRevealed) return;
 
     clickedBlock.isRevealed = true;
 
+    // jogador perdeu aqui
     if (clickedBlock.hasBomb) {
       block.classList.add("bomb");
       block.innerHTML = this.#createIconImgEl("bomb");
 
-      // block.textContent = "💣";
-      this.revealAllBlocks();
-      alert("Você perdeu! Tente novamente.");
-
-      // --- Reniciar o jogo
-      await sleep(this.#ROUND_LOADING_NEW_GAME_MS);
-
-      this.isGameRevealed = false;
-      this.resetRound();
+      await this.loseRound();
     } else {
+      this.diamondsClicked += 1;
+      this.updateMultipliers();
+      this.setBetButtonToCashOut();
       this.removeOneDiamond();
       block.classList.add("diamond");
       block.classList.add("revealed");
@@ -60,6 +101,52 @@ export class GameGrid {
       // block.textContent = "💎"; // Adiciona o ícone de diamante
       this.checkWinCondition();
     }
+  }
+
+  setBetButtonToCashOut() {
+    let totalBetValue = roundToTwoDecimalPlaces(
+      this.multiplier * this.#player.getBetValue()
+    );
+    this.disableBetButton(false);
+    this.setElementText(
+      this.#elements.betButton,
+      `Retirar R$ ${totalBetValue}`
+    );
+  }
+
+  updateMultipliers() {
+    let actualMultiplier =
+      1 + (this.diamondsClicked / this.#diamondsTotal) * 15;
+    let nextMultiplier =
+      1 + ((this.diamondsClicked + 1) / this.#diamondsTotal) * 15;
+    this.multiplier = actualMultiplier;
+    this.nextMultiplier = nextMultiplier;
+    this.updateMultiplayerTexts();
+  }
+
+  async loseRound() {
+    this.setElementText(this.#elements.gameHint, BET_HINT_MESSAGES.userLose);
+
+    this.disableBetButton(true);
+    // block.textContent = "💣";
+    this.revealAllBlocks();
+    this.#player.loseBetsDone();
+
+    let lostMoney = this.#player.getLostBets().value * this.multiplier;
+
+    alert(
+      `Você perdeu R$ ${roundToTwoDecimalPlaces(lostMoney)}! Tente novamente.`
+    );
+    this.#player.loseMoney(lostMoney);
+
+    // --- Reniciar o jogo
+    await sleep(this.#ROUND_LOADING_NEW_GAME_MS);
+    this.setElementText(this.#elements.gameHint, BET_HINT_MESSAGES.userCanBet);
+
+    this.enableGameGrid(false);
+    this.isGameRevealed = false;
+    this.resetRound();
+    this.#player.cancelBet();
   }
 
   #createIconImgEl(icon) {
@@ -105,7 +192,7 @@ export class GameGrid {
 
         block.dataset.x = j;
         block.dataset.y = i;
-        this.#gridEl.appendChild(block);
+        this.#elements.grid.appendChild(block);
         let mineBlock = new Block(j, i, false, false);
         this.gameGrid.push(mineBlock);
 
@@ -122,16 +209,40 @@ export class GameGrid {
 
   removeOneDiamond() {
     this.setDiamondsCount(this.#diamondsCount - 1);
-    this.updateDiamonds();
+    this.updateDiamondsText();
   }
 
   #setInitialDiamonds() {
-    this.setDiamondsCount(this.#gridSize * this.#gridSize - this.#bombCount);
-    this.updateDiamonds();
+    let diamondsTotal = this.#gridSize * this.#gridSize - this.#bombCount;
+    this.setDiamondsCount(diamondsTotal);
+    this.#diamondsTotal = diamondsTotal;
+    this.updateDiamondsText();
   }
 
-  updateDiamonds() {
-    this.#diamondTextEl.innerText = this.#diamondsCount;
+  updateDiamondsText() {
+    this.#elements.diamondsText.innerText = this.#diamondsCount;
+  }
+
+  updateMultiplayerTexts(isEmpty = false) {
+    if (isEmpty) {
+      Object.values(this.#elements.multiplierEls).forEach((el) => {
+        el.innerHTML = "&nbsp;";
+      });
+      return;
+    }
+
+    this.#elements.multiplierEls.actualMultiplier.textContent = `${roundToTwoDecimalPlaces(
+      this.multiplier
+    )}x`;
+    this.#elements.multiplierEls.nextMultiplier.textContent = `${roundToTwoDecimalPlaces(
+      this.nextMultiplier
+    )}x`;
+    this.#elements.multiplierEls.totalWin.textContent = roundToTwoDecimalPlaces(
+      this.multiplier * this.#player.getBetValue()
+    );
+    this.#elements.multiplierEls.multiplierLabel.textContent = `(${roundToTwoDecimalPlaces(
+      this.multiplier
+    )}x)`;
   }
 
   #getRandomDiamondImage() {
@@ -143,6 +254,9 @@ export class GameGrid {
   #preloadDiamondImgOnCache() {
     document.querySelector("#diamond-cache .diamond").innerHTML =
       this.#createIconImgEl("diamond");
+    document
+      .querySelectorAll("[data-diamond-img]")
+      .forEach((el) => el.setAttribute("src", this.#diamondSrcImage));
   }
 
   #pickRandomDiamondSrcImage() {
@@ -174,28 +288,96 @@ export class GameGrid {
     }
   }
 
-  loadingNewRound() {}
-
-  startNewRound() {
+  build() {
     this.#setInitialDiamonds();
     this.#pickRandomDiamondSrcImage();
     this.#preloadDiamondImgOnCache();
     this.createGrid();
+    this.updateMultiplayerTexts(true);
+    this.enableGameGrid(false);
+    this.disableBetButton(false);
+  }
+
+  startNewRound() {
+    this.disableAllUserInputs(true);
+    this.disableBetButton(true);
+    this.setElementText(this.#elements.gameHint, BET_HINT_MESSAGES.userCanPlay);
+    this.enableGameGrid(true);
   }
 
   resetRound() {
-    for (let i = 0; i < this.#gridSize; i++) {
-      for (let j = 0; j < this.#gridSize; j++) {
-        const block = document.querySelector(
-          `.mine-block[data-x='${i}'][data-y='${j}']`
-        );
-        // limpar os eventos
-        block.removeEventListener("click", this.handleBlockClick);
-      }
-    }
+    this.disableAllUserInputs(false);
+    this.setElementText(this.#elements.gameHint, BET_HINT_MESSAGES.userCanBet);
+    this.updateMultiplayerTexts(true);
 
-    this.#gridEl.innerHTML = "";
+    console.log("Validar isso aqui se funciona corretamente");
+
+    this.gameGrid.forEach((block) => {
+      const blockEl = document.querySelector(
+        `.mine-block[data-x='${block.x}'][data-y='${block.y}']`
+      );
+      if (!elementExists(blockEl)) {
+        log("block", `Block: x(${block.x}) y(${block.y})`);
+        throw new Error(`Block element don't exists!`);
+      }
+      // limpar os eventos
+      blockEl.removeEventListener("click", this.handleBlockClick);
+    });
+
+    // for (let i = 0; i < this.#gridSize; i++) {
+    //   for (let j = 0; j < this.#gridSize; j++) {
+    //     const block = document.querySelector(
+    //       `.mine-block[data-x='${i}'][data-y='${j}']`
+    //     );
+    //   }
+    // }
+
+    this.#elements.grid.innerHTML = "";
+    this.diamondsClicked = 0;
+    this.multiplier = 1;
+    this.nextMultiplier = 1;
+    this.updateMultiplayerTexts();
     this.gameGrid = [];
-    this.startNewRound();
+    this.enableGameGrid(false);
+    this.setElementText(this.#elements.betButton, "Apostar (Novo Jogo)");
+    this.build();
+  }
+  enableGameGrid(shouldEnableGameGrid) {
+    this.#elements.grid.dataset.disabled = !shouldEnableGameGrid;
+    this.#elements.grid.classList.toggle(
+      "cursor-not-allowed",
+      !shouldEnableGameGrid
+    );
+    if (shouldEnableGameGrid) {
+      this.#elements.grid.removeAttribute("title");
+    } else {
+      this.#elements.grid.setAttribute(
+        "title",
+        "Faça uma aposta antes de começar a jogar"
+      );
+    }
+  }
+
+  disableBetButton(shouldDisable) {
+    if (shouldDisable) this.#elements.betButton.setAttribute("disabled", true);
+    else this.#elements.betButton.removeAttribute("disabled");
+  }
+
+  setElementText(el, text) {
+    if (!elementExists(el))
+      throw new Error("Element which will text don't exists!");
+    el.innerText = text;
+  }
+
+  disableAllUserInputs(shouldDisable) {
+    if (shouldDisable) {
+      this.#elements.inputsToDisableEls.forEach((el) => {
+        el.setAttribute("disabled", true);
+      });
+    } else {
+      this.#elements.inputsToDisableEls.forEach((el) => {
+        el.removeAttribute("disabled");
+      });
+    }
   }
 }

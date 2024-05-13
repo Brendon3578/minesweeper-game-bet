@@ -113,6 +113,19 @@ function log(type, message) {
   // console.log(`[${type}] - ${message}`);
 }
 
+/**
+ * Enumeração para mapear as mensagens de ajuda exibidas que auxilia o entendimento do jogador sobre o jogo.
+ * @enum {string}
+ */
+const BET_HINT_MESSAGES = {
+  /** Mensagem exibida quando o usuário pode fazer uma aposta. */
+  userCanBet: "Faça a sua aposta abaixo",
+  /** Mensagem exibida quando o usuário clicou no botão que contêm uma mina */
+  userLose: "Você perdeu!",
+  /** Mensagem exibida quando o usuário precisa esperar uma nova rodada para apostar.*/
+  userCanPlay: "Clique em um dos blocos para jogar",
+};
+
 const DIAMONDS_IMAGE_FILENAMES = [
   "black",
   "blue",
@@ -139,4 +152,5 @@ export {
   sleep,
   log,
   DIAMONDS_IMAGE_FILENAMES,
+  BET_HINT_MESSAGES,
 };

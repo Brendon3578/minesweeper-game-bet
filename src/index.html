@@ -69,9 +69,10 @@
             <form class="flex flex-col gap-8 w-full">
               <fieldset
                 class="group p-3 flex flex-col gap-4 justify-center items-center w-full"
-                data-bet-status="bet"
               >
-                <p class="text-gray-400 text-sm">Faça a sua aposta abaixo</p>
+                <p class="text-gray-400 text-sm">
+                  <span id="game-hint"> Faça a sua aposta abaixo </span>
+                </p>
 
                 <div class="flex flex-col gap-4 w-full max-w-md md:max-w-full">
                   <div class="flex gap-2 items-end w-full">
@@ -82,9 +83,12 @@
                       >
                       <input
                         type="number"
-                        name=""
-                        id=""
-                        class="px-2 h-9 rounded border border-slate-600 bg-slate-800 outline-none shadow-md"
+                        value="1.00"
+                        step=".01"
+                        min="0.01"
+                        name="bet-value"
+                        id="bet-value"
+                        class="px-2 h-9 rounded border border-slate-600 bg-slate-800 outline-none shadow-md disabled:text-gray-400"
                       />
                       <span
                         class="absolute bottom-2 right-3 text-sm text-slate-500 font-bold pointer-events-none"
@@ -94,40 +98,57 @@
                     </label>
                     <button
                       type="button"
-                      class="flex flex-col items-center justify-center bg-slate-700 border-slate-600 text-xl size-9 min-w-9 border rounded-sm"
+                      class="flex flex-col items-center justify-center bg-slate-700 border-slate-600 text-xl size-9 min-w-9 border rounded disabled:cursor-not-allowed"
+                      data-button-update-bet="half"
                     >
                       ½
                     </button>
                     <button
                       type="button"
-                      class="flex flex-col items-center justify-center bg-slate-700 border-slate-600 size-9 min-w-9 border rounded-sm"
+                      class="flex flex-col items-center justify-center bg-slate-700 border-slate-600 size-9 min-w-9 border rounded disabled:cursor-not-allowed"
+                      data-button-update-bet="double"
                     >
                       2x
                     </button>
                   </div>
 
-                  <div class="flex gap-2 w-full">
+                  <div class="flex gap-2 w-full items-end">
                     <!-- card group -->
                     <div class="flex flex-col gap-1 w-full">
-                      <span class="text-slate-300 text-xs"
-                        >Multiplicador Atual</span
-                      >
+                      <span class="text-slate-300 text-sm">Bombas 💣</span>
                       <div
                         class="p-1 px-2 rounded border border-slate-700 bg-slate-700"
                       >
-                        1.01
+                        10
                       </div>
                     </div>
 
                     <!-- card group -->
                     <div class="flex flex-col gap-1 w-full">
-                      <span class="text-slate-300 text-xs"
-                        >Próximo Multiplicador</span
-                      >
+                      <span class="text-slate-300 text-sm flex gap-2"
+                        >Gemas
+
+                        <div
+                          class="inline-block relative w-4 h-4 translate-y-px"
+                        >
+                          <img
+                            src="./assets/diamonds/cyan.png"
+                            data-diamond-img
+                            alt="Diamante"
+                            class="absolute top-0 right-0 w-4 h-4 blur-[3px]"
+                          />
+                          <img
+                            data-diamond-img
+                            src="./assets/diamonds/cyan.png"
+                            alt="Diamante"
+                            class="absolute top-0 right-0 w-4 h-4 inline-block"
+                          />
+                        </div>
+                      </span>
                       <div
                         class="p-1 px-2 rounded border border-slate-700 bg-slate-700"
                       >
-                        <span> 0 </span>
+                        <span id="diamonds-quantity"> 0 </span>
                       </div>
                     </div>
                   </div>
@@ -136,33 +157,39 @@
                     <div class="flex gap-2 w-full">
                       <!-- card group -->
                       <div class="flex flex-col gap-1 w-full">
-                        <span class="text-slate-300 text-sm">Bombas 💣</span>
+                        <span class="text-slate-300 text-xs"
+                          >Multiplicador Atual</span
+                        >
                         <div
                           class="p-1 px-2 rounded border border-slate-700 bg-slate-700"
+                          data-multiplier-now
                         >
-                          10
+                          1.00x
                         </div>
                       </div>
 
                       <!-- card group -->
                       <div class="flex flex-col gap-1 w-full">
-                        <span class="text-slate-300 text-sm">Gemas 💎</span>
+                        <span class="text-slate-300 text-xs"
+                          >Próximo Multiplicador</span
+                        >
                         <div
                           class="p-1 px-2 rounded border border-slate-700 bg-slate-700"
                         >
-                          <span id="diamonds-quantity"> 0 </span>
+                          <span data-multiplier-next> 1.00x </span>
                         </div>
                       </div>
                     </div>
                     <div class="flex flex-col gap-1 w-full">
                       <span class="text-slate-300 text-sm">
                         Ganhos totais
-                        <span>(1.08x)</span>
+                        <span data-multiplier-label>(1.00x)</span>
                       </span>
                       <div
                         class="p-1 px-2 rounded border border-slate-700 bg-slate-700"
+                        data-multiplier-total-value
                       >
-                        40
+                        1
                       </div>
                     </div>
                   </div>
@@ -171,25 +198,11 @@
                 <!-- BET BUTTON -->
                 <button
                   type="button"
-                  class="w-full bg-primary py-4 text-xl font-bold rounded-md border-primary-dark border shadow-md shadow-primary/50 hover:bg-primary-dark hover:scale-105 transition duration-150 ease-in-out"
-                >
-                  Bet
-                </button>
-
-                <!-- <div
-                  role="button"
                   id="bet-button"
-                  data-button-disabled="false"
-                  class="button-bet h-20 w-52 rounded-3xl flex flex-col items-center justify-center text-2xl"
+                  class="w-full bg-primary py-4 text-xl font-bold rounded-md border-primary-dark border shadow-md shadow-primary/50 hover:bg-primary-dark hover:scale-105 transition duration-150 ease-in-out disabled:hover:scale-100 disabled:bg-primary-dark disabled:opacity-50"
                 >
-                  <span class="text-nowrap" data-bet-button-text>Bet</span>
-                  <div
-                    class="cash-out-value-txt text-xl items-center justify-center gap-2"
-                  >
-                    <span data-bet-text-value>1.00x</span>
-                    <span class="text-sm">R$</span>
-                  </div>
-                </div> -->
+                  Apostar (Novo Jogo)
+                </button>
               </fieldset>
             </form>
           </aside>
