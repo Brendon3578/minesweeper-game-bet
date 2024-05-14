@@ -86,7 +86,7 @@ async function sleep(ms) {
 
 /**
  * Função responsável por exibir uma mensagem informativa, de alerta ou executar uma operação de espera ou armazenamento.
- * @typedef {("info"|"alert"|"sleep"|"storage"|"start"|"round"|"block")} ActionType
+ * @typedef {("info"|"alert"|"sleep"|"storage"|"start"|"round"|"block"|"event")} ActionType
  */
 
 const LOG_COLORS = {
@@ -96,6 +96,7 @@ const LOG_COLORS = {
   storage: "#2ecc71", // verde
   start: "#f1c40f", // amarelo
   block: "#ef4444", // vermelho
+  event: "#629a90", // verde musgo
 };
 
 /**

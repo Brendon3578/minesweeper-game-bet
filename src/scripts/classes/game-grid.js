@@ -68,6 +68,7 @@ export class GameGrid {
   }
 
   async handleBlockClick(event) {
+    log("event", "evento de clique disparado!");
     if (this.isGameRevealed) return;
     const block = event.target;
     const x = parseInt(block.dataset.x);
@@ -144,7 +145,6 @@ export class GameGrid {
     this.setElementText(this.#elements.gameHint, BET_HINT_MESSAGES.userCanBet);
 
     this.enableGameGrid(false);
-    this.isGameRevealed = false;
     this.resetRound();
     this.#player.cancelBet();
   }
@@ -198,6 +198,7 @@ export class GameGrid {
 
         // tem que ter o .bind()
         block.addEventListener("click", this.handleBlockClick);
+        log("event", "evento de clique adicionado.");
       }
     }
     this.placeBombs();
@@ -269,9 +270,9 @@ export class GameGrid {
       (block) => !block.hasBomb && !block.isRevealed
     ).length;
     if (unrevealedSafeBlocks === 0) {
+      showAlert("Você descobriu todas as gemas!");
       this.revealAllBlocks();
-      alert("Parabéns! Você ganhou!");
-      this.resetRound();
+      this.isGameRevealed = true;
     }
   }
 
@@ -312,6 +313,7 @@ export class GameGrid {
   }
 
   async resetRound(shouldGenerateNewDiamond = true) {
+    this.isGameRevealed = false;
     this.setElementText(this.#elements.gameHint, BET_HINT_MESSAGES.userCanBet);
     this.updateMultiplayerTexts(true);
 
@@ -327,6 +329,7 @@ export class GameGrid {
       }
       // limpar os eventos
       blockEl.removeEventListener("click", this.handleBlockClick);
+      log("event", "evento de clique removido!");
     });
 
     await sleep(125);

@@ -103,25 +103,3 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
-
-.button-bet {
-  /* @apply  */
-
-  /* TODO: TERMINAR AQUI */
-  padding: 8px 16px;
-  border: none;
-  outline: none;
-  color: rgb(255, 255, 255);
-  background: #111;
-  cursor: pointer;
-  border-radius: 16px;
-  transition: transform 0.1s ease-in-out;
-}
-
-.button-bet:hover {
-  @apply scale-105 brightness-110;
-}
-
-.button-bet[data-button-disabled="true"] {
-  @apply cursor-not-allowed pointer-events-none opacity-50;
-}
