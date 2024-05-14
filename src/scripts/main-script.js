@@ -141,14 +141,7 @@ betButtonEl.addEventListener("click", () => {
       gameGrid.startNewRound();
       break;
     case "bet":
-      let winnedBetValue = roundToTwoDecimalPlaces(
-        player.getBetValue() * gameGrid.multiplier
-      );
-      player.winBet();
-      player.winMoney(winnedBetValue);
-      showAlert(`Você ganhou R$ ${winnedBetValue}!`);
-      gameGrid.resetRound();
-      player.cancelBet();
+      gameGrid.winRound();
       break;
     default:
       throw new Error("Something Goes Wrong.");

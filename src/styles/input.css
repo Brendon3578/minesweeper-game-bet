@@ -7,7 +7,7 @@
 }
 
 .mine-block {
-  @apply flex items-center justify-center size-20 bg-gray-800 border border-gray-700 ring-1 ring-inset ring-gray-900/50 text-center text-2xl cursor-pointer rounded shadow-sm ease-in duration-200;
+  @apply flex items-center justify-center size-20 bg-gray-800 border border-t-gray-600 border-l-gray-600 border-b-gray-700 border-r-gray-700 ring-1 ring-inset ring-gray-900/50 text-center text-2xl cursor-pointer rounded shadow-sm ease-in duration-200 hover:bg-gray-700;
 }
 
 #grid[data-disabled="true"] .mine-block {

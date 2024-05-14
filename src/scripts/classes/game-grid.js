@@ -5,6 +5,7 @@ import {
   getRandomInt,
   log,
   roundToTwoDecimalPlaces,
+  showAlert,
   sleep,
 } from "../utils.js";
 import { Block } from "./block.js";
@@ -379,5 +380,22 @@ export class GameGrid {
         el.removeAttribute("disabled");
       });
     }
+  }
+
+  async winRound() {
+    let winnedBetValue = roundToTwoDecimalPlaces(
+      this.#player.getBetValue() * this.multiplier
+    );
+    this.#player.winBet();
+    this.#player.winMoney(winnedBetValue);
+    this.revealAllBlocks();
+
+    showAlert(`Você ganhou R$ ${winnedBetValue}!`);
+
+    await sleep(5000);
+
+    this.#player.cancelBet();
+
+    this.resetRound();
   }
 }

@@ -1049,8 +1049,11 @@ video {
   justify-content: center;
   border-radius: 0.25rem;
   border-width: 1px;
+  border-top-color: rgb(75 85 99 / var(--tw-border-opacity));
+  border-left-color: rgb(75 85 99 / var(--tw-border-opacity));
+  border-bottom-color: rgb(55 65 81 / var(--tw-border-opacity));
   --tw-border-opacity: 1;
-  border-color: rgb(55 65 81 / var(--tw-border-opacity));
+  border-right-color: rgb(55 65 81 / var(--tw-border-opacity));
   --tw-bg-opacity: 1;
   background-color: rgb(31 41 55 / var(--tw-bg-opacity));
   text-align: center;
@@ -1066,6 +1069,11 @@ video {
   --tw-ring-color: rgb(17 24 39 / 0.5);
   transition-duration: 200ms;
   transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
+}
+
+.mine-block:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(55 65 81 / var(--tw-bg-opacity));
 }
 
 #grid[data-disabled="true"] .mine-block {
