@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="./styles/output.css" />
+    <link rel="stylesheet" href="./styles/scroll.css" />
+
+    <title>Como jogar o jogo - MineSweeper - Fatekinho</title>
+    <title>Como jogar o jogo - Jogo do Aviãozinho - Fatekinho</title>
+  </head>
+  <body class="bg-background">
+    <div id="app" class="bg-background w-full min-h-screen">
+      <!-- HEADER -->
+      <header
+        class="p-1 px-4 bg-slate-800 flex justify-between border border-b border-slate-700"
+      >
+        <!-- LOGO -->
+        <a
+          class="text-primary text-4xl flex items-center hover:animate-pulse"
+          href="#"
+        >
+          <img src="./assets/mascote.svg" alt="" class="size-12" />
+          Minesweeper
+        </a>
+        <div class="flex gap-2 items-center justify-center">
+          <a
+            class="bg-secondary flex py-0.5 px-3 items-center gap-1 justify-center rounded-full"
+            title="Clique aqui para voltar para o jogo"
+            href="./index.html"
+          >
+            <!-- prettier-ignore -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+              <path fill-rule="evenodd" d="M7.793 2.232a.75.75 0 0 1-.025 1.06L3.622 7.25h10.003a5.375 5.375 0 0 1 0 10.75H10.75a.75.75 0 0 1 0-1.5h2.875a3.875 3.875 0 0 0 0-7.75H3.622l4.146 3.957a.75.75 0 0 1-1.036 1.085l-5.5-5.25a.75.75 0 0 1 0-1.085l5.5-5.25a.75.75 0 0 1 1.06.025Z" clip-rule="evenodd" />
+            </svg>
+
+            <span class="hidden sm:inline-block"> Voltar </span>
+          </a>
+        </div>
+      </header>
+      <main class="w-full flex items-center justify-center">
+        <section
+          class="font-serif m-2 sm:m-8 max-w-4xl w-full flex flex-col p-0.5 sm:p-2 gap-6 mb-24 text-gray-300"
+        >
+          <div class="flex flex-col sm:flex-row items-center gap-2">
+            <h1 class="text-3xl font-bold text-gray-100">
+              Como funciona o jogo Campo Minado do Fatekinho?
+              <img
+                src="./assets/bomb.png"
+                alt="Ícone do aviãozinho"
+                class="h-20 w-20 object-contain"
+              />
+            </h1>
+          </div>
+          <p>
+            Ele é o clássico <b> Jogo de Campo Minado </b>, no qual as minas e
+            as gemas ficam escondidas em uma grade de quadrados. Seu trabalho é
+            acertar em qual bloco a gema está escondida e tomar cuidado para não
+            clicar na mina e perder toda a aposta.
+          </p>
+
+          <img
+            src="./assets/game-images/example01.png"
+            alt="Exemplo de partida"
+            class="block rounded-md border-gray-400 border w-full sm:w-2/3 self-center"
+          />
+
+          <p>
+            O <b> funcionamento do Jogo do Campo Minado no Fatekinho </b> é
+            muito simples:
+          </p>
+          <ul class="list-disc pl-8">
+            <li>Você começa uma rodada colocando um valor de aposta;</li>
+            <li>Você clica em um dos blocos da grade;</li>
+            <li>
+              Dependendo da sua sorte, no bloco selecionado pode estar uma gema
+              ou uma mina;
+            </li>
+            <li>Você decide quando sacar o dinheiro e terminar a rodada.</li>
+          </ul>
+
+          <img
+            src="./assets/game-images/example02.png"
+            alt="Exemplo de partida"
+            class="block rounded-md border-gray-400 border w-full sm:w-2/3 self-center"
+          />
+
+          <p>
+            Este é um <b>baseado na sorte</b> então a sorte pode ou não estar do
+            seu lado:
+          </p>
+
+          <ul class="list-disc pl-8">
+            <li>
+              Você
+              <b> retira sua aposta (faz cash out) </b>
+              enquanto estiver ganhando um valor satisfatório, no qual a cada
+              gema encontrada o valor ganho é multiplicado.
+              <img
+                src="./assets/diamonds/purple.png"
+                alt="Diamante"
+                class="w-5 h-5 inline-block"
+              />
+              <img
+                src="./assets/diamonds/green.png"
+                alt="Diamante"
+                class="w-5 h-5 inline-block"
+              />
+              <img
+                src="./assets/diamonds/purple.png"
+                alt="Diamante"
+                class="w-5 h-5 inline-block"
+              />
+            </li>
+            <li>
+              Você <b> clica em um bloco que tem uma mina</b>, e perde todo o
+              calor apostado.
+              <img
+                src="./assets/bomb.png"
+                alt="Bomba"
+                class="w-5 h-5 inline-block"
+              />
+              <img
+                src="./assets/bomb.png"
+                alt="Bomba"
+                class="w-5 h-5 inline-block"
+              />
+              <img
+                src="./assets/bomb.png"
+                alt="Bomba"
+                class="w-5 h-5 inline-block"
+              />
+            </li>
+          </ul>
+
+          <div class="self-center my-4">
+            <a class="diamond px-4 py-2 rounded" href="./index.html"
+              >Gostou do jogo? Aposte agora</a
+            >
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

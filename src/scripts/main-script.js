@@ -16,6 +16,7 @@ const totalWinTextEl = document.querySelector("[data-multiplier-total-value]");
 const updateBetButtons = document.querySelectorAll(
   "button[data-button-update-bet]"
 );
+const bombsSelectEl = document.getElementById("bombs-quantity");
 const betValueNumberInputEl = document.getElementById("bet-value");
 
 const multiplierTextElements = {
@@ -31,7 +32,11 @@ const elements = {
   diamondsText: diamondsTextEl,
   gameHint: gameHintTextEl,
   betButton: betButtonEl,
-  inputsToDisableEls: [...updateBetButtons, betValueNumberInputEl],
+  inputsToDisableEls: [
+    ...updateBetButtons,
+    betValueNumberInputEl,
+    bombsSelectEl,
+  ],
 };
 
 let allElementsExists = [
@@ -148,3 +153,10 @@ betButtonEl.addEventListener("click", () => {
       break;
   }
 });
+
+// ------------------------------------[ SCRIPT DO SELECT E BOMBAS ]------------------------------------
+function changeBombGrid() {
+  let selectedBombsQuantity = bombsSelectEl.value;
+  gameGrid.setBombsQuantity(selectedBombsQuantity);
+}
+bombsSelectEl.addEventListener("change", changeBombGrid);

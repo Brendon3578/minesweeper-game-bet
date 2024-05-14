@@ -39,7 +39,6 @@ export class GameGrid {
   #diamondsTotal = 0;
   #diamondsCount = 0;
   #diamondSrcImage = "";
-  #isGameStarted = false;
   multiplier = 1;
   nextMultiplier = 1;
   diamondsClicked = 0;
@@ -185,7 +184,7 @@ export class GameGrid {
     });
   }
 
-  createGrid() {
+  async createGrid() {
     for (let i = 0; i < this.#gridSize; i++) {
       for (let j = 0; j < this.#gridSize; j++) {
         const block = document.createElement("div");
@@ -202,6 +201,7 @@ export class GameGrid {
       }
     }
     this.placeBombs();
+    await sleep(125);
   }
 
   setDiamondsCount(diamonds) {
@@ -278,6 +278,7 @@ export class GameGrid {
   placeBombs() {
     let bombsPlaced = 0;
     console.log("------------ Onde as bombas estão plantadas ------------ ");
+    console.log(`Quantidade de bombas: ${this.#bombCount}`);
     while (bombsPlaced < this.#bombCount) {
       const randomIndex = Math.floor(Math.random() * this.gameGrid.length);
       if (!this.gameGrid[randomIndex].hasBomb) {
@@ -287,13 +288,17 @@ export class GameGrid {
         this.gameGrid[randomIndex].logBlockPosition();
       }
     }
+    console.log(`Quantidade de bombas colocadas: ${bombsPlaced}`);
   }
 
-  build() {
+  async build(shouldGenerateNewDiamond = true) {
+    this.disableBetButton(true);
     this.#setInitialDiamonds();
-    this.#pickRandomDiamondSrcImage();
-    this.#preloadDiamondImgOnCache();
-    this.createGrid();
+    if (shouldGenerateNewDiamond) {
+      this.#pickRandomDiamondSrcImage();
+      this.#preloadDiamondImgOnCache();
+    }
+    await this.createGrid();
     this.updateMultiplayerTexts(true);
     this.enableGameGrid(false);
     this.disableBetButton(false);
@@ -306,8 +311,7 @@ export class GameGrid {
     this.enableGameGrid(true);
   }
 
-  resetRound() {
-    this.disableAllUserInputs(false);
+  async resetRound(shouldGenerateNewDiamond = true) {
     this.setElementText(this.#elements.gameHint, BET_HINT_MESSAGES.userCanBet);
     this.updateMultiplayerTexts(true);
 
@@ -325,6 +329,8 @@ export class GameGrid {
       blockEl.removeEventListener("click", this.handleBlockClick);
     });
 
+    await sleep(125);
+
     // for (let i = 0; i < this.#gridSize; i++) {
     //   for (let j = 0; j < this.#gridSize; j++) {
     //     const block = document.querySelector(
@@ -337,12 +343,16 @@ export class GameGrid {
     this.diamondsClicked = 0;
     this.multiplier = 1;
     this.nextMultiplier = 1;
-    this.updateMultiplayerTexts();
     this.gameGrid = [];
     this.enableGameGrid(false);
     this.setElementText(this.#elements.betButton, "Apostar (Novo Jogo)");
-    this.build();
+    this.disableAllUserInputs(false);
+
+    await this.build(shouldGenerateNewDiamond);
   }
+
+  // TODO: verificar erro quando muda de minas pois o evento de handle block não acontece
+
   enableGameGrid(shouldEnableGameGrid) {
     this.#elements.grid.dataset.disabled = !shouldEnableGameGrid;
     this.#elements.grid.classList.toggle(
@@ -383,6 +393,7 @@ export class GameGrid {
   }
 
   async winRound() {
+    this.disableBetButton(true);
     let winnedBetValue = roundToTwoDecimalPlaces(
       this.#player.getBetValue() * this.multiplier
     );
@@ -397,5 +408,10 @@ export class GameGrid {
     this.#player.cancelBet();
 
     this.resetRound();
+  }
+
+  setBombsQuantity(bombsQuantity) {
+    this.#bombCount = bombsQuantity;
+    this.resetRound(false);
   }
 }
