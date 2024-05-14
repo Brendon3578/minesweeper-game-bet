@@ -11,12 +11,30 @@
       href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
       rel="stylesheet"
     />
+    <!-- fav-icon -->
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="./assets/favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./assets/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="./assets/favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="./assets/favicon/site.webmanifest" />
 
     <link rel="stylesheet" href="./styles/output.css" />
     <link rel="stylesheet" href="./styles/scroll.css" />
 
     <title>Como jogar o jogo - MineSweeper - Fatekinho</title>
-    <title>Como jogar o jogo - Jogo do Aviãozinho - Fatekinho</title>
   </head>
   <body class="bg-background">
     <div id="app" class="bg-background w-full min-h-screen">
@@ -30,7 +48,7 @@
           href="#"
         >
           <img src="./assets/mascote.svg" alt="" class="size-12" />
-          Minesweeper
+          <span class="hidden sm:inline-block"> Minesweeper </span>
         </a>
         <div class="flex gap-2 items-center justify-center">
           <a
@@ -69,14 +87,14 @@
             <b class="italic text-cyan-400">15 vezes</b>!
           </p>
 
-          <div class="flex flex-col sm:flex-row gap-4 my-8">
+          <div class="flex flex-col md:flex-row gap-4 my-8 items-center">
             <div
-              class="px-8 py-4 rounded-lg flex gap-2 justify-between items-center bg-slate-800 border border-t-slate-600 border-l-slate-600 border-b-slate-700 border-r-slate-700 ring-1 ring-inset ring-slate-900/20 shadow-lg"
+              class="w-full flex-1 px-8 py-4 rounded-lg flex flex-col sm:flex-row gap-2 justify-between items-center bg-slate-800 border border-t-slate-600 border-l-slate-600 border-b-slate-700 border-r-slate-700 ring-1 ring-inset ring-slate-900/20 shadow-lg"
             >
               <div class="flex flex-col gap-1">
                 <h5 class="font-bold text-2xl">Gemas</h5>
                 <span class="text-slate-400 text-sm">
-                  Células abertas com pedras preciosas
+                  Gemas encontradas nos blocos irão multiplicar seu ganho
                 </span>
                 <span
                   class="mt-2 rounded-full w-min py-0.5 px-4 bg-cyan-500 text-slate-800 font-bold"
@@ -99,12 +117,12 @@
               </div>
             </div>
             <div
-              class="px-8 py-4 rounded-lg flex gap-2 justify-between items-center bg-slate-800 border border-t-slate-600 border-l-slate-600 border-b-slate-700 border-r-slate-700 ring-1 ring-inset ring-slate-900/20 shadow-lg"
+              class="w-full flex-1 px-8 py-4 rounded-lg flex flex-col sm:flex-row gap-2 justify-between items-center bg-slate-800 border border-t-slate-600 border-l-slate-600 border-b-slate-700 border-r-slate-700 ring-1 ring-inset ring-slate-900/20 shadow-lg"
             >
               <div class="flex flex-col gap-1">
                 <h5 class="font-bold text-2xl">Minas</h5>
                 <span class="text-slate-400 text-sm">
-                  Número de minas no campo de jogo
+                  Minas escondidas acabam com a sua sorte e fazem perder tudo
                 </span>
                 <span
                   class="mt-2 rounded-full w-min py-0.5 px-4 bg-red-500 text-slate-800 font-bold"
@@ -193,7 +211,7 @@
           </p>
 
           <div class="self-center my-4">
-            <a class="diamond px-4 py-2 rounded" href="./index.html"
+            <a class="diamond px-6 py-3 rounded" href="./index.html"
               >Gostou do jogo? Aposte agora</a
             >
           </div>

@@ -49,7 +49,7 @@
           href="#"
         >
           <img src="./assets/mascote.svg" alt="" class="size-12" />
-          Minesweeper
+          <span class="hidden sm:inline-block"> Minesweeper </span>
         </a>
         <div class="flex gap-2 items-center justify-center">
           <a
@@ -183,7 +183,7 @@
                       <div
                         class="p-1 px-2 rounded border border-slate-700 bg-slate-700"
                       >
-                        <span id="diamonds-quantity"> 0 </span>
+                        <span id="diamonds-quantity"> 26 </span>
                       </div>
                     </div>
                   </div>
@@ -199,7 +199,8 @@
                           class="p-1 px-2 rounded border border-slate-700 bg-slate-700"
                           data-multiplier-now
                         >
-                          1.00x
+                          &nbsp;
+                          <!-- 1.00x -->
                         </div>
                       </div>
 
@@ -211,20 +212,24 @@
                         <div
                           class="p-1 px-2 rounded border border-slate-700 bg-slate-700"
                         >
-                          <span data-multiplier-next> 1.00x </span>
+                          <span data-multiplier-next> &nbsp; </span>
+
+                          <!-- <span data-multiplier-next> 1.00x </span> -->
                         </div>
                       </div>
                     </div>
                     <div class="flex flex-col gap-1 w-full">
                       <span class="text-slate-300 text-sm">
                         Ganhos totais
-                        <span data-multiplier-label>(1.00x)</span>
+                        <!-- <span data-multiplier-label>(1.00x)</span> -->
+                        <span data-multiplier-label> &nbsp; </span>
                       </span>
                       <div
                         class="p-1 px-2 rounded border border-slate-700 bg-slate-700"
                         data-multiplier-total-value
                       >
-                        1
+                        &nbsp;
+                        <!-- 1 -->
                       </div>
                     </div>
                   </div>

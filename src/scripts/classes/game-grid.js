@@ -165,7 +165,7 @@ export class GameGrid {
     this.isGameRevealed = true;
 
     this.gameGrid.forEach((block) => {
-      console.log(block.isRevealed);
+      // console.log(block.isRevealed);
       // console.log(block);
       const blockElement = document.querySelector(
         `.mine-block[data-x="${block.x}"][data-y="${block.y}"]`
@@ -406,7 +406,7 @@ export class GameGrid {
 
     showAlert(`Você ganhou R$ ${winnedBetValue}!`);
 
-    await sleep(5000);
+    await sleep(7500);
 
     this.#player.cancelBet();
 
