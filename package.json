@@ -1,7 +1,7 @@
 {
   "name": "mineswepeer-game",
-  "version": "1.5.0",
-  "description": "Simple Mineswepeer bet game",
+  "version": "2.0.0",
+  "description": "Ele é o clássico Jogo de Campo Minado , no qual as minas e as gemas ficam escondidas em uma grade de quadrados.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
