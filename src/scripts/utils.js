@@ -122,7 +122,7 @@ const BET_HINT_MESSAGES = {
   /** Mensagem exibida quando o usuário pode fazer uma aposta. */
   userCanBet: "Faça a sua aposta abaixo",
   /** Mensagem exibida quando o usuário clicou no botão que contêm uma mina */
-  userLose: "Você perdeu!",
+  userLose: "Você perdeu! Espere a próxima partida",
   /** Mensagem exibida quando o usuário precisa esperar uma nova rodada para apostar.*/
   userCanPlay: "Clique em um dos blocos para jogar",
 };

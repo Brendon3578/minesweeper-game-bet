@@ -140,7 +140,7 @@ export class GameGrid {
     );
     this.#player.loseMoney(lostMoney);
 
-    // --- Reniciar o jogo
+    // --- Reiniciar o jogo
     await sleep(this.#ROUND_LOADING_NEW_GAME_MS);
     this.setElementText(this.#elements.gameHint, BET_HINT_MESSAGES.userCanBet);
 
