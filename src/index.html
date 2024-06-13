@@ -45,12 +45,14 @@
       >
         <!-- LOGO -->
         <a
-          class="text-primary text-4xl flex items-center hover:animate-pulse"
+          class="text-primary text-4xl flex items-center gap-2 hover:animate-pulse"
           href="#"
         >
-          <img src="./assets/mascote.svg" alt="" class="size-12" />
-          <span class="hidden sm:inline-block"> Minesweeper </span>
+          <img src="./assets/mascote.svg" alt="" class="size-12 min-w-12" />
+          <span class="hidden sm:inline-block">Mini Blaze</span>
         </a>
+        <!-- LOGO -->
+
         <div class="flex gap-2 items-center justify-center">
           <a
             class="bg-secondary flex py-0.5 px-3 items-center gap-1 justify-center rounded-full"
@@ -62,7 +64,7 @@
               <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0ZM8.94 6.94a.75.75 0 1 1-1.061-1.061 3 3 0 1 1 2.871 5.026v.345a.75.75 0 0 1-1.5 0v-.5c0-.72.57-1.172 1.081-1.287A1.5 1.5 0 1 0 8.94 6.94ZM10 15a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd" />
             </svg>
 
-            <span class="hidden sm:inline-block"> Como jogar? </span>
+            <span class="hidden sm:inline-block">Como jogar?</span>
           </a>
           <!-- Saldo do usuário -->
           <div
@@ -91,16 +93,16 @@
                 class="group p-3 flex flex-col gap-4 justify-center items-center w-full"
               >
                 <p class="text-gray-400 text-sm">
-                  <span id="game-hint"> Faça a sua aposta abaixo </span>
+                  <span id="game-hint">Faça a sua aposta abaixo</span>
                 </p>
 
                 <div class="flex flex-col gap-4 w-full max-w-md md:max-w-full">
                   <div class="flex gap-2 items-end w-full">
                     <!-- input group -->
                     <label class="relative flex flex-col gap-1 w-full">
-                      <span class="text-slate-300 font-semibold"
-                        >Valor da aposta</span
-                      >
+                      <span class="text-slate-300 font-semibold">
+                        Valor da aposta
+                      </span>
                       <input
                         type="number"
                         value="1.00"
@@ -160,8 +162,8 @@
 
                     <!-- card group -->
                     <div class="flex flex-col gap-1 w-full">
-                      <span class="text-slate-300 text-sm flex gap-2"
-                        >Gemas
+                      <span class="text-slate-300 text-sm flex gap-2">
+                        Gemas
 
                         <div
                           class="inline-block relative w-4 h-4 translate-y-px"
@@ -183,7 +185,7 @@
                       <div
                         class="p-1 px-2 rounded border border-slate-700 bg-slate-700"
                       >
-                        <span id="diamonds-quantity"> 26 </span>
+                        <span id="diamonds-quantity">26</span>
                       </div>
                     </div>
                   </div>
@@ -192,9 +194,9 @@
                     <div class="flex gap-2 w-full">
                       <!-- card group -->
                       <div class="flex flex-col gap-1 w-full">
-                        <span class="text-slate-300 text-xs"
-                          >Multiplicador Atual</span
-                        >
+                        <span class="text-slate-300 text-xs">
+                          Multiplicador Atual
+                        </span>
                         <div
                           class="p-1 px-2 rounded border border-slate-700 bg-slate-700"
                           data-multiplier-now
@@ -206,13 +208,13 @@
 
                       <!-- card group -->
                       <div class="flex flex-col gap-1 w-full">
-                        <span class="text-slate-300 text-xs"
-                          >Próximo Multiplicador</span
-                        >
+                        <span class="text-slate-300 text-xs">
+                          Próximo Multiplicador
+                        </span>
                         <div
                           class="p-1 px-2 rounded border border-slate-700 bg-slate-700"
                         >
-                          <span data-multiplier-next> &nbsp; </span>
+                          <span data-multiplier-next>&nbsp;</span>
 
                           <!-- <span data-multiplier-next> 1.00x </span> -->
                         </div>
@@ -222,7 +224,7 @@
                       <span class="text-slate-300 text-sm">
                         Ganhos totais
                         <!-- <span data-multiplier-label>(1.00x)</span> -->
-                        <span data-multiplier-label> &nbsp; </span>
+                        <span data-multiplier-label>&nbsp;</span>
                       </span>
                       <div
                         class="p-1 px-2 rounded border border-slate-700 bg-slate-700"
